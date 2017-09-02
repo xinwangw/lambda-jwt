@@ -3,21 +3,16 @@ Lambda API Gateway support for JSON Web Tokens
 
 API Gateway custom Lambda function for JSON Web Token: https://jwt.io/introduction/
 
+Changed original to use library nJWt.
 
 To Generate your own private key
 --------------------------------
-```
-openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes
-```
-
+Save secret key string in file `secret.key`.
 
 Upload to AWS
 -------------
 
 Log into the AWS console and create an empty "jwtAuthorize" function using Node.js.
-
-Create or copy your public key as "cert.pem" in this folder.
-
 
 Run
 

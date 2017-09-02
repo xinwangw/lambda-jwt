@@ -28,7 +28,7 @@ module.exports = function(grunt) {
 					file_name: 'index.js',
 					handler: 'handler',
 				},
-				arn: 'arn:aws:lambda:us-east-1:' + grunt.option('account-id') + ':function:jwtAuthorize',
+				arn: 'arn:aws:lambda:ap-southeast-2:' + grunt.option('account-id') + ':function:jwtAuthorize',
 			},
 		},
 		lambda_package: {

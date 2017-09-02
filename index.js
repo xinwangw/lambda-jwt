@@ -7,9 +7,9 @@
  * @see http://docs.aws.amazon.com/apigateway/latest/developerguide/use-custom-authorizer.html
  * @author Chris Moyer <cmoyer@aci.info>
  */
-var jwt = require('jsonwebtoken');
+var nJwt = require('njwt');
 var fs = require('fs');
-var cert = fs.readFileSync('cert.pem');
+var secretKey = fs.readFileSync('secret.key'); // Put secret key in it, txt format
 
 function generatePolicyDocument(principalId, effect, resource) {
 	var authResponse = {};
@@ -37,18 +37,18 @@ exports.handler = function jwtHandler(event, context){
 	if(token[0] === 'Bearer'){
 		// Token-based re-authorization
 		// Verify
-		jwt.verify(token[1], cert, function(err, data){
-			if(err){
-				console.log('Verification Failure', err);
-				context.fail('Unauthorized');
-			} else if (data && data.id){
-				console.log('LOGIN', data);
-				context.succeed(generatePolicyDocument(data.id, 'Allow', event.methodArn));
-			} else {
-				console.log('Invalid User', data);
-				context.fail('Unauthorized');
+        nJwt.verify(token[1], secretKey, 'HS512', function (err, verifiedJwt) {
+            if (err) {
+                console.log('Verification Failure', err); // Token has expired, has been tampered with, etc
+                context.fail('Unauthorized');
+            } else if (verifiedJwt && verifiedJwt.body && verifiedJwt.body.id){
+                console.log('LOGIN', verifiedJwt);// Will contain the header and body
+                context.succeed(generatePolicyDocument(verifiedJwt.body.id, 'Allow', event.methodArn));
+            } else {
+                console.log('Invalid User', verifiedJwt);
+                context.fail('Unauthorized');
 			}
-		});
+        });
 	} else {
 		// Require a "Bearer" token
 		console.log('Wrong token type', token[0]);
