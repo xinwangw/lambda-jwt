@@ -43,7 +43,7 @@ exports.handler = function jwtHandler(event, context){
                 context.fail('Unauthorized');
             } else if (verifiedJwt && verifiedJwt.body && verifiedJwt.body.id){
                 console.log('LOGIN', verifiedJwt);// Will contain the header and body
-                context.succeed(generatePolicyDocument(verifiedJwt.body.id, 'Allow', event.methodArn));
+                context.succeed(generatePolicyDocument(verifiedJwt.body.id, 'Allow', 'arn:aws:execute-api:ap-southeast-2:325404385406:e3khmfc9b8/*/POST/*'));
             } else {
                 console.log('Invalid User', verifiedJwt);
                 context.fail('Unauthorized');

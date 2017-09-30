@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		lambda_invoke: {
 			default: {
-				package: 'jwtAuthorize',
+				package: 'jwtAuthorizePost',
 				options: {
 					file_name: 'index.js',
 					handler: 'handler',
@@ -23,17 +23,17 @@ module.exports = function(grunt) {
 		},
 		lambda_deploy: {
 			default: {
-				package: 'jwtAuthorize',
+				package: 'jwtAuthorizePost',
 				options: {
 					file_name: 'index.js',
 					handler: 'handler',
 				},
-				arn: 'arn:aws:lambda:ap-southeast-2:' + grunt.option('account-id') + ':function:jwtAuthorize',
+				arn: 'arn:aws:lambda:ap-southeast-2:' + grunt.option('account-id') + ':function:jwtAuthorizePost',
 			},
 		},
 		lambda_package: {
 			default: {
-				package: 'jwtAuthorize',
+				package: 'jwtAuthorizePost',
 			},
 		},
 		env: {
